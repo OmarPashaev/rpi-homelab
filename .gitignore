@@ -1,0 +1,17 @@
+**/.env
+**/secrets/
+**/certs/
+*.pem
+*.key
+*.crt
+*.sqlite3
+*.db
+**/data/
+**/logs/
+authelia/config/db.sqlite3
+authelia/config/notification.txt
+authelia/config/users.yml
+adguard/conf/
+adguard/work/
+forgejo/data/
+forgejo/config/

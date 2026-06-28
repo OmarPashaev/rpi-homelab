@@ -1,0 +1,9 @@
+tls:
+  certificates:
+    - certFile: /certs/home.lan.crt
+      keyFile: /certs/home.lan.key
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/home.lan.crt
+        keyFile: /certs/home.lan.key
