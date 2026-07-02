@@ -26,6 +26,11 @@ docker exec forgejo rm -f /tmp/forgejo-dump.tar
 echo "==> Securing mkcert CA root..."
 cp -a /home/rpi5/.local/share/mkcert/. "${STAGING}/mkcert-CAROOT/"
 
+echo "==> Dumping Nextcloud..."
+docker compose -f /home/rpi5/docker/nextcloud/docker-compose.yml exec -T -u www-data app php occ maintenance:mode --on
+docker compose -f /home/rpi5/docker/nextcloud/docker-compose.yml exec -T db pg_dump -U nextcloud nextcloud > "${STAGING}/nextcloud.sql"
+docker compose -f /home/rpi5/docker/nextcloud/docker-compose.yml exec -T -u www-data app php occ maintenance:mode --off
+
 echo "==> Running restic backup..."
 restic backup "${DOCKER_DIR}" \
     --tag automated \
