@@ -7,11 +7,11 @@ services:
       - no-new-privileges:true
     networks:
       - proxy
+      - socket-proxy
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/etc/traefik/traefik.yml:ro
       - ./dynamic:/etc/traefik/dynamic:ro
       - ./certs:/certs:ro
@@ -22,6 +22,9 @@ services:
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.middlewares=authelia@docker"
+
 networks:
   proxy:
+    external: true
+  socket-proxy:
     external: true
