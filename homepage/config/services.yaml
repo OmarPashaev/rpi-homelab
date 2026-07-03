@@ -1,0 +1,20 @@
+- Infrastructure:
+    - Traefik:
+        icon: traefik.png
+        href: https://traefik.home.lan
+    - Authelia:
+        icon: authelia.png
+        href: https://auth.home.lan
+    - AdGuard Home:
+        icon: adguard-home.png
+        href: https://adguard.home.lan
+- Apps:
+    - Forgejo:
+        icon: forgejo.png
+        href: https://git.home.lan
+    - Nextcloud:
+        icon: nextcloud.png
+        href: https://nextcloud.home.lan
+    - whoami:
+        icon: mdi-test-tube
+        href: https://whoami.home.lan

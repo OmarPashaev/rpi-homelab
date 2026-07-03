@@ -16,3 +16,8 @@ adguard/work/
 forgejo/data/
 forgejo/config/
 _backup-staging/
+homepage/config/logs/
+homepage/config/docker.yaml
+homepage/config/kubernetes.yaml
+homepage/config/proxmox.yaml
+homepage/config/logs/
