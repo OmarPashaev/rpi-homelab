@@ -28,6 +28,8 @@ access_control:
       policy: 'one_factor'
     - domain: 'home.home.lan'
       policy: 'one_factor'
+    - domain: 'uptimekuma.home.lan'
+      policy: 'one_factor'
 
 session:
   name: 'authelia_session'
