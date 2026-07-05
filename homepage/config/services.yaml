@@ -8,6 +8,9 @@
     - AdGuard Home:
         icon: adguard-home.png
         href: https://adguard.home.lan
+    - Uptime Kuma:
+        icon: uptime-kuma.png
+        href: https://uptimekuma.home.lan
 - Apps:
     - Forgejo:
         icon: forgejo.png
