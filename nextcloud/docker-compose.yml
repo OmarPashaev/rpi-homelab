@@ -3,6 +3,13 @@ services:
     image: postgres:${POSTGRES_IMAGE_TAG}
     container_name: nextcloud-db
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     environment:
       TZ: ${TZ}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -19,6 +26,15 @@ services:
     image: redis:${REDIS_IMAGE_TAG}
     container_name: nextcloud-redis
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      TZ: ${TZ}
     command: redis-server --save "" --appendonly no
     networks:
       - db-net
@@ -27,6 +43,13 @@ services:
     image: nextcloud:${NEXTCLOUD_IMAGE_TAG}
     container_name: nextcloud-app
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     depends_on:
       - db
       - redis
@@ -51,15 +74,15 @@ services:
       - proxy
       - db-net
     labels:
-      traefik.enable: "true"
-      traefik.http.routers.nextcloud.rule: Host(`nextcloud.home.lan`)
-      traefik.http.routers.nextcloud.entrypoints: websecure
-      traefik.http.routers.nextcloud.tls: "true"
-      traefik.http.services.nextcloud.loadbalancer.server.port: "80"
-      traefik.http.middlewares.nextcloud-dav.redirectregex.regex: "https://(.*)/.well-known/(card|cal)dav"
-      traefik.http.middlewares.nextcloud-dav.redirectregex.replacement: "https://$${1}/remote.php/dav/"
-      traefik.http.middlewares.nextcloud-dav.redirectregex.permanent: "true"
-      traefik.http.routers.nextcloud.middlewares: nextcloud-dav
+      - "traefik.enable=true"
+      - "traefik.http.routers.nextcloud.rule=Host(`nextcloud.home.lan`)"
+      - "traefik.http.routers.nextcloud.entrypoints=websecure"
+      - "traefik.http.routers.nextcloud.tls=true"
+      - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.nextcloud-dav.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
+      - "traefik.http.middlewares.nextcloud-dav.redirectregex.replacement=https://$${1}/remote.php/dav/"
+      - "traefik.http.middlewares.nextcloud-dav.redirectregex.permanent=true"
+      - "traefik.http.routers.nextcloud.middlewares=nextcloud-dav"
 
 secrets:
   db_password:

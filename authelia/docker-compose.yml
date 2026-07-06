@@ -3,6 +3,13 @@ services:
     image: authelia/authelia:4.39
     container_name: authelia
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     networks:
       - proxy
     volumes:
@@ -10,7 +17,7 @@ services:
       - ./config:/config
       - ./logs:/var/log/authelia/
     environment:
-      TZ: Europe/Oslo
+      TZ: ${TZ}
       X_AUTHELIA_CONFIG_FILTERS: template
     labels:
       - "traefik.enable=true"

@@ -3,6 +3,15 @@ services:
     image: louislam/uptime-kuma:2.3.2
     container_name: uptime-kuma
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      TZ: ${TZ}
     volumes:
       - ./data:/app/data
     networks:

@@ -3,9 +3,17 @@ services:
     image: tecnativa/docker-socket-proxy:v0.4.2
     container_name: docker-socket-proxy
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     environment:
-      - CONTAINERS=1
-      - NETWORKS=1
+      CONTAINERS: "1"
+      NETWORKS: "1"
+      TZ: ${TZ}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:

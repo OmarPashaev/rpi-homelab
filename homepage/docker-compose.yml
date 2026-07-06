@@ -3,19 +3,27 @@ services:
     image: ghcr.io/gethomepage/homepage:v1.13.2
     container_name: homepage
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     environment:
+      TZ: ${TZ}
       HOMEPAGE_ALLOWED_HOSTS: home.home.lan
     volumes:
       - ./config:/app/config
     networks:
       - proxy
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.homepage.rule=Host(`home.home.lan`)
-      - traefik.http.routers.homepage.entrypoints=websecure
-      - traefik.http.routers.homepage.tls=true
-      - traefik.http.services.homepage.loadbalancer.server.port=3000
-      - traefik.http.routers.homepage.middlewares=authelia@docker
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.rule=Host(`home.home.lan`)"
+      - "traefik.http.routers.homepage.entrypoints=websecure"
+      - "traefik.http.routers.homepage.tls=true"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+      - "traefik.http.routers.homepage.middlewares=authelia@docker"
 
 networks:
   proxy:

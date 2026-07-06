@@ -5,6 +5,11 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     networks:
       - proxy
       - socket-proxy
@@ -15,6 +20,8 @@ services:
       - ./traefik.yml:/etc/traefik/traefik.yml:ro
       - ./dynamic:/etc/traefik/dynamic:ro
       - ./certs:/certs:ro
+    environment:
+      TZ: ${TZ}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.home.lan`)"

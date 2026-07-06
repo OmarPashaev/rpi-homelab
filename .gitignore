@@ -21,3 +21,4 @@ homepage/config/docker.yaml
 homepage/config/kubernetes.yaml
 homepage/config/proxmox.yaml
 homepage/config/logs/
+*.bak

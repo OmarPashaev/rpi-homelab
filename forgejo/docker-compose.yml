@@ -3,19 +3,25 @@ services:
     image: codeberg.org/forgejo/forgejo:${FORGEJO_VERSION}
     container_name: forgejo
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     networks:
       - proxy
     volumes:
       - ./data:/data
       - ./config:/etc/gitea
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     ports:
       - "${FORGEJO_SSH_PORT}:2222"
     environment:
       USER_UID: ${USER_UID}
       USER_GID: ${USER_GID}
-      TZ: ${TZ}
       FORGEJO__server__DOMAIN: ${FORGEJO_DOMAIN}
       FORGEJO__server__SSH_DOMAIN: ${FORGEJO_DOMAIN}
       FORGEJO__server__ROOT_URL: "https://${FORGEJO_DOMAIN}/"
@@ -33,6 +39,7 @@ services:
       - "traefik.http.routers.forgejo.entrypoints=websecure"
       - "traefik.http.routers.forgejo.tls=true"
       - "traefik.http.services.forgejo.loadbalancer.server.port=3000"
+
 networks:
   proxy:
     external: true

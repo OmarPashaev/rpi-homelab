@@ -1,8 +1,17 @@
 services:
   whoami:
-    image: traefik/whoami
+    image: traefik/whoami:v1.11
     container_name: whoami
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      TZ: ${TZ}
     networks:
       - proxy
     labels:
