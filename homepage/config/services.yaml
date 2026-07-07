@@ -11,6 +11,9 @@
     - Uptime Kuma:
         icon: uptime-kuma.png
         href: https://uptimekuma.home.lan
+    - Scrutiny:
+        icon: scrutiny.png
+        href: https://scrutiny.home.lan
 - Apps:
     - Forgejo:
         icon: forgejo.png

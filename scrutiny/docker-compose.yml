@@ -1,0 +1,39 @@
+services:
+  scrutiny:
+    image: ghcr.io/analogj/scrutiny:v0.9.2-omnibus
+    container_name: scrutiny
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    cap_add:
+      - SYS_RAWIO
+      - SYS_ADMIN
+    networks:
+      - proxy
+    volumes:
+      - ./config:/opt/scrutiny/config
+      - ./influxdb:/opt/scrutiny/influxdb
+      - /run/udev:/run/udev:ro
+    devices:
+      - /dev/nvme0n1
+      - /dev/sda
+    environment:
+      TZ: ${TZ}
+      COLLECTOR_CRON_SCHEDULE: "0 0 * * *"
+      COLLECTOR_RUN_STARTUP: "true"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.scrutiny.rule=Host(`scrutiny.home.lan`)"
+      - "traefik.http.routers.scrutiny.entrypoints=websecure"
+      - "traefik.http.routers.scrutiny.tls=true"
+      - "traefik.http.routers.scrutiny.middlewares=authelia@docker"
+      - "traefik.http.services.scrutiny.loadbalancer.server.port=8080"
+
+networks:
+  proxy:
+    external: true
