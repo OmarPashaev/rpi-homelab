@@ -14,7 +14,7 @@ services:
       - proxy
     volumes:
       - ./data:/data
-      - ./config:/etc/gitea
+    #  - ./config:/etc/gitea
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     ports:
