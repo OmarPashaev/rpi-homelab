@@ -1,0 +1,67 @@
+services:
+  loki:
+    image: grafana/loki:3.7.3
+    container_name: loki
+    restart: unless-stopped
+    command: -config.file=/etc/loki/loki.yaml
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - proxy
+    volumes:
+      - ./loki/loki.yaml:/etc/loki/loki.yaml:ro
+      - ./loki/data:/loki
+    tmpfs:
+      - /tmp
+    environment:
+      TZ: ${TZ}
+
+  alloy:
+    image: grafana/alloy:v1.17.1
+    container_name: alloy
+    restart: unless-stopped
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/alloy-data
+      - --disable-reporting
+      - /etc/alloy/config.alloy
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    user: root
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - proxy
+      # Metadata only (CONTAINERS=1 list calls) for container-name enrichment.
+      - socket-proxy
+    volumes:
+      - ./alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - ./alloy/data:/alloy-data
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    tmpfs:
+      - /tmp
+    environment:
+      TZ: ${TZ}
+    depends_on:
+      - loki
+
+networks:
+  proxy:
+    external: true
+  socket-proxy:
+    external: true
