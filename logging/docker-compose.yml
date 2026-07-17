@@ -53,6 +53,7 @@ services:
       - ./alloy/config.alloy:/etc/alloy/config.alloy:ro
       - ./alloy/data:/alloy-data
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /run/log/journal:/run/log/journal:ro
     tmpfs:
       - /tmp
     environment:

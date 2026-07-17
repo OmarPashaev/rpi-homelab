@@ -76,3 +76,29 @@ loki.write "default" {
     url = "http://loki:3100/loki/api/v1/push"
   }
 }
+
+loki.relabel "journal" {
+  forward_to = []
+
+  rule {
+    source_labels = ["__journal__systemd_unit"]
+    target_label  = "unit"
+  }
+
+  rule {
+    target_label = "job"
+    replacement  = "host-journal"
+  }
+
+  rule {
+    target_label = "host"
+    replacement  = "rpi5"
+  }
+}
+
+loki.source.journal "host" {
+  path          = "/run/log/journal"
+  max_age       = "24h"
+  relabel_rules = loki.relabel.journal.rules
+  forward_to    = [loki.write.default.receiver]
+}
