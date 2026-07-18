@@ -27,4 +27,13 @@ providers:
     watch: true
 log:
   level: INFO
-accessLog: {}
+accessLog:
+  format: json
+  fields:
+    defaultMode: keep
+    headers:
+      defaultMode: drop
+      names:
+        Authorization: drop
+        Cookie: drop
+        Set-Cookie: drop
