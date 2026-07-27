@@ -3,8 +3,11 @@ services:
     image: authelia/authelia:4.39
     container_name: authelia
     restart: unless-stopped
+    user: "8000:8000"
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
     logging:
       driver: json-file
       options:
