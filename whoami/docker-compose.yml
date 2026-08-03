@@ -14,6 +14,7 @@ services:
       TZ: ${TZ}
     networks:
       - proxy
+      - apps
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.home.lan`)"
@@ -22,4 +23,6 @@ services:
       - "traefik.docker.network=apps"
 networks:
   proxy:
+    external: true
+  apps:
     external: true

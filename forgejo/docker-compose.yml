@@ -12,6 +12,7 @@ services:
         max-file: "3"
     networks:
       - proxy
+      - apps
     volumes:
       - ./data:/data
     #  - ./config:/etc/gitea
@@ -42,4 +43,6 @@ services:
       - "traefik.docker.network=apps"
 networks:
   proxy:
+    external: true
+  apps:
     external: true

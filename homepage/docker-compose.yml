@@ -17,6 +17,7 @@ services:
       - ./config:/app/config
     networks:
       - proxy
+      - apps
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.homepage.rule=Host(`home.home.lan`)"
@@ -27,4 +28,6 @@ services:
       - "traefik.docker.network=apps"
 networks:
   proxy:
+    external: true
+  apps:
     external: true

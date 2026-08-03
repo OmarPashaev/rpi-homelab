@@ -12,6 +12,7 @@ services:
         max-file: "3"
     networks:
       - proxy
+      - apps
     ports:
       - "53:53/tcp"
       - "53:53/udp"
@@ -30,4 +31,6 @@ services:
       - "traefik.docker.network=apps"
 networks:
   proxy:
+    external: true
+  apps:
     external: true
