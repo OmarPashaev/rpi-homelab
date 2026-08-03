@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
     logging:
       driver: json-file
       options:
@@ -16,6 +18,9 @@ services:
       - ./data:/app/data
     networks:
       - proxy
+      - edge
+      - apps
+      - obs
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.uptime-kuma.rule=Host(`uptimekuma.home.lan`)"
@@ -26,4 +31,10 @@ services:
       - "traefik.docker.network=obs"
 networks:
   proxy:
+    external: true
+  edge:
+    external: true
+  apps:
+    external: true
+  obs:
     external: true
