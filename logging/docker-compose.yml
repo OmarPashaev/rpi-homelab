@@ -16,6 +16,7 @@ services:
         max-file: "3"
     networks:
       - proxy
+      - obs
     volumes:
       - ./loki/loki.yaml:/etc/loki/loki.yaml:ro
       - ./loki/data:/loki
@@ -47,6 +48,7 @@ services:
         max-file: "3"
     networks:
       - proxy
+      - obs
       # Metadata only (CONTAINERS=1 list calls) for container-name enrichment.
       - socket-proxy
     volumes:
@@ -65,4 +67,6 @@ networks:
   proxy:
     external: true
   socket-proxy:
+    external: true
+  obs:
     external: true
