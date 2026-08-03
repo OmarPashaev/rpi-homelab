@@ -3,8 +3,11 @@ services:
     image: postgres:${POSTGRES_IMAGE_TAG}
     container_name: nextcloud-db
     restart: unless-stopped
+    user: "999:999"
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
     logging:
       driver: json-file
       options:
