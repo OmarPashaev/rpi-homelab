@@ -26,8 +26,11 @@ services:
     image: redis:${REDIS_IMAGE_TAG}
     container_name: nextcloud-redis
     restart: unless-stopped
+    user: "999:999"
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
     logging:
       driver: json-file
       options:
