@@ -15,6 +15,7 @@ services:
         max-file: "3"
     networks:
       - proxy
+      - edge
     volumes:
       - ./secrets:/secrets:ro
       - ./config:/config
@@ -35,4 +36,6 @@ services:
 
 networks:
   proxy:
+    external: true
+  edge:
     external: true
