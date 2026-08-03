@@ -73,6 +73,7 @@ services:
     networks:
       - proxy
       - db-net
+      - apps
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud.rule=Host(`nextcloud.home.lan`)"
@@ -83,7 +84,7 @@ services:
       - "traefik.http.middlewares.nextcloud-dav.redirectregex.replacement=https://$${1}/remote.php/dav/"
       - "traefik.http.middlewares.nextcloud-dav.redirectregex.permanent=true"
       - "traefik.http.routers.nextcloud.middlewares=nextcloud-dav"
-
+      - "traefik.docker.network=apps"
 secrets:
   db_password:
     file: ./secrets/db_password.txt
@@ -95,3 +96,5 @@ networks:
     external: true
   db-net:
     driver: bridge
+  apps:
+    external: true

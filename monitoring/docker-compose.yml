@@ -55,7 +55,7 @@ services:
       - "traefik.http.routers.prometheus.tls=true"
       - "traefik.http.routers.prometheus.middlewares=authelia@docker"
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
-
+      - "traefik.docker.network=obs"
   grafana:
     image: grafana/grafana:13.1.0
     container_name: grafana
@@ -83,7 +83,7 @@ services:
       - "traefik.http.routers.grafana.tls=true"
       - "traefik.http.routers.grafana.middlewares=authelia@docker"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
-
+      - "traefik.docker.network=obs"
 networks:
   proxy:
     external: true

@@ -31,6 +31,7 @@ services:
       - "traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true"
       - "traefik.http.middlewares.authelia.forwardAuth.maxResponseBodySize=8192"
       - "traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Name,Remote-Email"
+      - "traefik.docker.network=edge"
 
 networks:
   proxy:

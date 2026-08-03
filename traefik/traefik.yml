@@ -20,7 +20,6 @@ entryPoints:
 providers:
   docker:
     exposedByDefault: false
-    network: proxy
     endpoint: "tcp://docker-socket-proxy:2375"
   file:
     directory: /etc/traefik/dynamic

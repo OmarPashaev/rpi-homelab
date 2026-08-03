@@ -11,6 +11,9 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
+      - edge
+      - apps
+      - obs
       - proxy
       - socket-proxy
     ports:
@@ -34,4 +37,10 @@ networks:
   proxy:
     external: true
   socket-proxy:
+    external: true
+  edge:
+    external: true
+  apps:
+    external: true
+  obs:
     external: true

@@ -19,7 +19,7 @@ services:
       - "traefik.http.routers.whoami.rule=Host(`whoami.home.lan`)"
       - "traefik.http.routers.whoami.entrypoints=websecure"
       - "traefik.http.routers.whoami.tls=true"
-
+      - "traefik.docker.network=apps"
 networks:
   proxy:
     external: true

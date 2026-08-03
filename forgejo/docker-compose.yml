@@ -39,7 +39,7 @@ services:
       - "traefik.http.routers.forgejo.entrypoints=websecure"
       - "traefik.http.routers.forgejo.tls=true"
       - "traefik.http.services.forgejo.loadbalancer.server.port=3000"
-
+      - "traefik.docker.network=apps"
 networks:
   proxy:
     external: true
