@@ -14,7 +14,6 @@ services:
       - edge
       - apps
       - obs
-      - proxy
       - socket-proxy
     ports:
       - "80:80"
@@ -34,8 +33,6 @@ services:
       - "traefik.http.routers.dashboard.middlewares=authelia@docker"
 
 networks:
-  proxy:
-    external: true
   socket-proxy:
     external: true
   edge:

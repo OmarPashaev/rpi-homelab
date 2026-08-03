@@ -14,7 +14,6 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
-      - proxy
       - edge
     volumes:
       - ./secrets:/secrets:ro
@@ -35,7 +34,5 @@ services:
       - "traefik.docker.network=edge"
 
 networks:
-  proxy:
-    external: true
   edge:
     external: true

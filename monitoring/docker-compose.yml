@@ -13,7 +13,6 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
-      - proxy
       - obs
     environment:
       TZ: ${TZ}
@@ -39,7 +38,6 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
-      - proxy
       - obs
     environment:
       TZ: ${TZ}
@@ -72,7 +70,6 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
-      - proxy
       - obs
     environment:
       TZ: ${TZ}
@@ -88,7 +85,5 @@ services:
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
       - "traefik.docker.network=obs"
 networks:
-  proxy:
-    external: true
   obs:
     external: true

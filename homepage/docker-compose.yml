@@ -16,7 +16,6 @@ services:
     volumes:
       - ./config:/app/config
     networks:
-      - proxy
       - apps
     labels:
       - "traefik.enable=true"
@@ -27,7 +26,5 @@ services:
       - "traefik.http.routers.homepage.middlewares=authelia@docker"
       - "traefik.docker.network=apps"
 networks:
-  proxy:
-    external: true
   apps:
     external: true

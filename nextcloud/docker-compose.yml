@@ -71,7 +71,6 @@ services:
     volumes:
       - ./data:/var/www/html
     networks:
-      - proxy
       - db-net
       - apps
     labels:
@@ -92,8 +91,6 @@ secrets:
     file: ./secrets/admin_password.txt
 
 networks:
-  proxy:
-    external: true
   db-net:
     driver: bridge
   apps:

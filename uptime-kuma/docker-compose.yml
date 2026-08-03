@@ -17,7 +17,6 @@ services:
     volumes:
       - ./data:/app/data
     networks:
-      - proxy
       - edge
       - apps
       - obs
@@ -30,8 +29,6 @@ services:
       - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
       - "traefik.docker.network=obs"
 networks:
-  proxy:
-    external: true
   edge:
     external: true
   apps:
