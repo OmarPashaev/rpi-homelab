@@ -33,7 +33,7 @@ access_control:
     - domain: "prometheus.home.lan"
       policy: 'one_factor'
     - domain: 'grafana.home.lan'
-      policy: 'one_factor'
+      policy: 'two_factor'
 
 session:
   name: 'authelia_session'
