@@ -122,4 +122,18 @@ if [ "${WEEKLY}" -eq 1 ]; then
     restic check
 fi
 
+echo "==> Copying snapshots off-site to Backblaze B2..."
+if [ -r /root/.restic-b2.env ]; then
+    . /root/.restic-b2.env
+
+    restic -r "${B2_REPO}" --password-file "${B2_PASSWORD_FILE}" unlock
+
+    restic -r "${B2_REPO}" --password-file "${B2_PASSWORD_FILE}" \
+        copy --from-repo "${RESTIC_REPOSITORY}" \
+             --from-password-file "${RESTIC_PASSWORD_FILE}" \
+             --limit-upload 5000
+else
+    echo "WARNING: /root/.restic-b2.env not readable, skipping off-site copy" >&2
+fi
+
 echo "==> Backup finished: $(date)"
