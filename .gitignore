@@ -23,3 +23,4 @@ homepage/config/proxmox.yaml
 homepage/config/logs/
 *.bak
 nextcloud/db-data/
+ntfy/
