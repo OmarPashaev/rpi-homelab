@@ -46,6 +46,8 @@ The observability stack is one pipeline:
   same place, so a spike on a graph and the log lines behind it are one click
   apart.
 
+---
+
 ## Security decisions I have made
 
 **`cap_drop: ALL`**
@@ -73,6 +75,8 @@ Wildcard for `*.home.lan`, signed by my own CA, so every service is served over 
 The NVMe is encrypted, in case of a stolen disk. The Pi is headless, so the passphrase goes in over SSH to a dropbear instance running in the initramfs, on its own port with its own key and a forced `cryptroot-unlock` command.
 
 The cost is that the Pi does not boot unattended. After a power cut it waits for me before anything starts.
+
+---
 
 ## Detection rules
 
