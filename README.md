@@ -1,4 +1,5 @@
-#README
+# Raspberry Pi 5 homelab
+
 Self-hosted infrastructure on a Raspberry Pi 5, running on Docker. Half of it is services I use every day: files, DNS, dashboards, all reached through a reverse proxy over TLS. The other half watches the first: metrics, logs, and detection rules I wrote and then tested by attacking my own login portal. I built it to learn.
 
 ## Hardware
