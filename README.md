@@ -77,6 +77,7 @@ The NVMe is encrypted, in case of a stolen disk. The Pi is headless, so the pass
 The cost is that the Pi does not boot unattended. After a power cut it waits for me before anything starts.
 It also means a reboot while I am away leaves me with no way in, since WireGuard does not run in the initramfs.
 I plan to make remote unlock possible by running WireGuard in the initramfs, so unlocking uses the same port instead of a new one.
+
 ---
 
 ## Detection rules
