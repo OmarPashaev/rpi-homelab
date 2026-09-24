@@ -3,6 +3,7 @@
 **/certs/
 *.pem
 *.key
+*.psk
 *.crt
 *.sqlite3
 *.db
