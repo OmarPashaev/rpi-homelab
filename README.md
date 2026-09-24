@@ -54,8 +54,8 @@ The observability stack is one pipeline:
 Dropped every capability, then added back only the ones a service actually
 breaks without. Three of the sixteen containers needed anything at all.
 
-**LAN only, no ports forwarded**
-Nothing is reachable from the internet. Remote access will come later, over my own WireGuard.
+**WireGuard for remote access**
+One UDP port is forwarded to WireGuard. It runs on the host, not in Docker, and the tunnel only reaches the Pi.
 
 **Docker socket proxy**
 In front of the two services that need the Docker API, Traefik and Alloy. Five
@@ -75,7 +75,8 @@ Wildcard for `*.home.lan`, signed by my own CA, so every service is served over 
 The NVMe is encrypted, in case of a stolen disk. The Pi is headless, so the passphrase goes in over SSH to a dropbear instance running in the initramfs, on its own port with its own key and a forced `cryptroot-unlock` command.
 
 The cost is that the Pi does not boot unattended. After a power cut it waits for me before anything starts.
-
+It also means a reboot while I am away leaves me with no way in, since WireGuard does not run in the initramfs.
+I plan to make remote unlock possible by running WireGuard in the initramfs, so unlocking uses the same port instead of a new one.
 ---
 
 ## Detection rules
