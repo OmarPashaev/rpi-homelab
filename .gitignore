@@ -1,4 +1,5 @@
 **/.env
+**/*.env
 **/secrets/
 **/certs/
 *.pem
@@ -9,19 +10,14 @@
 *.db
 **/data/
 **/logs/
-authelia/config/db.sqlite3
 authelia/config/notification.txt
 authelia/config/users.yml
 adguard/conf/
 adguard/work/
-forgejo/data/
 forgejo/config/
 _backup-staging/
-homepage/config/logs/
 homepage/config/docker.yaml
 homepage/config/kubernetes.yaml
 homepage/config/proxmox.yaml
-homepage/config/logs/
 *.bak
 nextcloud/db-data/
-ntfy.env
