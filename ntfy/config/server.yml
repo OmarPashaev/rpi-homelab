@@ -1,0 +1,20 @@
+base-url: "https://ntfy.home.lan"
+listen-http: ":80"
+behind-proxy: true
+
+cache-file: "/var/lib/ntfy/cache.db"
+cache-duration: "12h"
+
+auth-file: "/var/lib/ntfy/user.db"
+auth-default-access: "deny-all"
+auth-access:
+  - "grafana:soc-alerts:write-only"
+  - "rpi5:soc-alerts:read-only"
+
+web-push-file: "/var/lib/ntfy/webpush.db"
+web-push-public-key: "BOonkOnEkhIOAzZMXLbGeNA94gG4z8yN8b0hSNiKUhs-JfutS9kSlkqrVibgUhhbY6zlLXwOl7BPnnKZIBCTzgo"
+web-push-email-address: "wonderfulgreendog@mailsire.com"
+web-push-expiry-warning-duration: "80d"
+web-push-expiry-duration: "90d"
+
+metrics-listen-http: ":9090"

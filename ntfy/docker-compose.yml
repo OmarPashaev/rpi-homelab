@@ -1,0 +1,37 @@
+services:
+  ntfy:
+    image: binwiederhier/ntfy:v2.27.0
+    container_name: ntfy
+    restart: unless-stopped
+    command: serve
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - apps
+      - obs
+    volumes:
+      - ./config/server.yml:/etc/ntfy/server.yml:ro
+      - ./data:/var/lib/ntfy
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - ntfy.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=apps"
+      - "traefik.http.routers.ntfy.rule=Host(`ntfy.home.lan`)"
+      - "traefik.http.routers.ntfy.entrypoints=websecure"
+      - "traefik.http.routers.ntfy.tls=true"
+      - "traefik.http.services.ntfy.loadbalancer.server.port=80"
+
+networks:
+  apps:
+    external: true
+  obs:
+    external: true
