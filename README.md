@@ -11,7 +11,7 @@ Self-hosted infrastructure on a Raspberry Pi 5, running on Docker. Half of it is
 
 ## Software stack
 
-Traefik terminates TLS and is the only way in. Authelia sits in front of the
+Traefik terminates TLS and is the only way in to the web services. Authelia sits in front of the
 services that have no login worth trusting, and stays off the ones that do.
 AdGuard is internal DNS for `*.home.lan` as well as an ad blocker. Forgejo holds the
 repo this file lives in.
@@ -27,6 +27,7 @@ repo this file lives in.
 | Uptime Kuma         | Authelia (1FA)      | edge, apps, obs               |
 | whoami              | none (test service) | apps                          |
 | Grafana             | Authelia (2FA)      | obs                           |
+| ntfy                | own login + ACL     | apps, obs                     |
 | Prometheus          | Authelia (1FA)      | obs                           |
 | Loki                | not exposed         | obs                           |
 | Alloy               | not exposed         | obs, socket-proxy             |
@@ -45,6 +46,8 @@ The observability stack is one pipeline:
 - **Grafana** is the only thing I actually look at. Metrics and logs land in the
   same place, so a spike on a graph and the log lines behind it are one click
   apart.
+- **ntfy** takes alerts from Grafana and pushes them to my phone. It sits on
+  `obs` so Grafana can reach it, and on `apps` so Traefik can.
 
 ---
 
@@ -52,10 +55,10 @@ The observability stack is one pipeline:
 
 **`cap_drop: ALL`**
 Dropped every capability, then added back only the ones a service actually
-breaks without. Three of the sixteen containers needed anything at all.
+breaks without. Three of the seventeen containers needed anything at all.
 
 **WireGuard for remote access**
-One UDP port is forwarded to WireGuard. It runs on the host, not in Docker, and the tunnel only reaches the Pi.
+One UDP port is forwarded to WireGuard. It runs on the host and the tunnel only reaches the Pi.
 
 **Docker socket proxy**
 In front of the two services that need the Docker API, Traefik and Alloy. Five
@@ -95,7 +98,7 @@ A ban is not its own log message. Authelia appends "and they are banned until
 <time>" to the same `Unsuccessful 1FA` line it writes for every failed attempt,
 so that phrase is what separates a lockout from an ordinary failure.
 
-Threshold: greater than 0. A ban means the threshold that matters has already been crossed inside Authelia, so there is no reason to put a second one on top. The policy behind it: `max_retries: 4` within `find_time: 120s`, `ban_time: 300s`.
+Threshold: greater than 0. A ban means the threshold that matters has already been crossed inside Authelia, so there is no reason to put a second one on top. The policy behind it: `max_retries: 4` within `find_time: 120s`, `ban_time: 300s`. When it fires, the alert goes to my phone through ntfy.
 
 I tested this with repeated failed logins against my own account until the lockout got triggered.
 
@@ -114,7 +117,7 @@ sum by (remote_ip) (count_over_time(
 ))
 ```
 
-Threshold: greater than 10 per source address in five minutes. Unlike rule A, nothing has filtered this for me, because Authelia never acts on this pattern, so the threshold has to do the whole job. Ten is a compromise: high enough that my own mistyped usernames do not fire it, low enough to catch a wordlist. The number might be worth changing in the future after I have found my baseline.
+Threshold: greater than 10 per source address in five minutes. Unlike rule A, nothing has filtered this for me, because Authelia never acts on this pattern, so the threshold has to do the whole job. Ten is a compromise: high enough that my own mistyped usernames do not fire it, low enough to catch a wordlist. The number might be worth changing in the future after I have found my baseline. Like rule A, it alerts my phone through ntfy.
 
 The `error="user not found"` filter is what separates the two attack shapes. That value means the username does not exist, which is enumeration. Any other error means a wrong password against an account that does exist, which is what rule A ends up catching through the ban.
 
