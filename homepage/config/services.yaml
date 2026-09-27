@@ -15,6 +15,10 @@
     - Grafana:
         icon: grafana.png
         href: https://grafana.home.lan
+    - Ntfy:
+        icon: ntfy.png
+        href: https://ntfy.home.lan
+        
 - Apps:
     - Forgejo:
         icon: forgejo.png
